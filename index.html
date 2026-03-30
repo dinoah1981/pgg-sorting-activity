@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<!-- 
+  LOCAL TESTING: If images don't load from a file:// URL, run a local server:
+  Open a terminal in this folder and run: python3 -m http.server 8000
+  Then open http://localhost:8000 in your browser.
+  
+  On GitHub Pages, images will load normally with no issues.
+  All images sourced from Wikimedia Commons (CC-BY-SA).
+-->
+
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Time Period Sorting — PGG Unit 5: Lesson 2</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0f1923;--bg2:#162231;--bg3:#1d2d3f;
+  --gold:#f5c842;--gold-dim:#a68a2a;--teal:#2ec4b6;--teal-dark:#1a8a7f;
+  --coral:#e76f51;--coral-light:#f4a261;--text:#e2e8f0;--text-dim:#94a3b8;--text-dark:#1e293b;
+  --card-bg:#fff;--pangaea:#dc2626;--tenk:#d97706;--onek:#059669;--hundred:#2563eb;--today:#7c3aed;
+  --r:12px;--rl:16px;
+}
+html{scroll-behavior:smooth}
+body{font-family:'Source Sans 3',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
+h1,h2,h3{font-family:'Playfair Display',serif}
+.hdr{background:linear-gradient(135deg,#0c1a28,#1a3147,#0f2234);padding:1.25rem 1rem;text-align:center;border-bottom:3px solid var(--gold);position:relative;overflow:hidden}
+.hdr::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 30% 0%,rgba(245,200,66,.08),transparent 60%)}
+.hdr h1{font-size:clamp(1.2rem,3.5vw,1.8rem);color:var(--gold);position:relative}
+.hdr .sub{font-size:.8rem;color:var(--text-dim);margin-top:.2rem;position:relative;font-weight:500}
+.sb{display:flex;align-items:center;justify-content:center;gap:1rem;flex-wrap:wrap;padding:.55rem 1rem;background:var(--bg2);border-bottom:1px solid rgba(255,255,255,.06);position:sticky;top:0;z-index:100}
+.st{display:flex;align-items:center;gap:.25rem;font-weight:600;font-size:.8rem}
+.st .ic{font-size:1rem}.st .vl{color:var(--gold);font-size:1rem;font-weight:700;min-width:1.5ch;text-align:center;transition:all .3s}
+.st .vl.pop{transform:scale(1.35);color:var(--teal)}.st .lb{color:var(--text-dim);font-size:.68rem}
+.sf{font-size:1.1rem;transition:all .3s}.sf.lit{filter:drop-shadow(0 0 6px #f59e0b);transform:scale(1.3)}
+.td{font-variant-numeric:tabular-nums;font-size:.92rem;font-weight:700}
+.hb{background:rgba(245,200,66,.15);border:1.5px solid var(--gold-dim);color:var(--gold);padding:.28rem .65rem;border-radius:2rem;font-family:inherit;font-weight:600;font-size:.76rem;cursor:pointer;transition:all .2s}
+.hb:hover{background:rgba(245,200,66,.25)}.hb:disabled{opacity:.4;cursor:default}
+.ins{max-width:960px;margin:.6rem auto;padding:0 1rem}
+.ic2{background:linear-gradient(135deg,var(--bg2),var(--bg3));border:1px solid rgba(255,255,255,.08);border-radius:var(--rl);padding:.75rem 1rem;display:flex;gap:.65rem;align-items:flex-start}
+.ic2 .ii{font-size:1.2rem;flex-shrink:0}.ic2 p{font-size:.8rem;line-height:1.5;color:var(--text-dim)}.ic2 strong{color:var(--text)}
+.mn{max-width:1400px;margin:0 auto;padding:.6rem;display:grid;grid-template-columns:300px 1fr;gap:.6rem}
+@media(max-width:960px){.mn{grid-template-columns:1fr}}
+.try{background:var(--bg2);border-radius:var(--rl);padding:.5rem;border:1px solid rgba(255,255,255,.06);max-height:calc(100vh - 105px);overflow-y:auto;position:sticky;top:55px}
+@media(max-width:960px){.try{position:static;max-height:none}}
+.th{display:flex;align-items:center;justify-content:space-between;margin-bottom:.4rem;padding:0 .2rem}
+.th h3{font-size:.85rem;color:var(--gold)}.th .rm{font-size:.72rem;color:var(--text-dim)}
+.sl{display:flex;flex-direction:column;gap:.35rem}
+.sc{background:var(--card-bg);border-radius:var(--r);border:2px solid #e2e8f0;cursor:pointer;transition:all .25s;overflow:hidden;user-select:none;-webkit-user-select:none;touch-action:none}
+.sc:hover{border-color:var(--teal);transform:translateY(-2px);box-shadow:0 4px 16px rgba(0,0,0,.3)}
+.sc.sel{border-color:var(--gold);box-shadow:0 0 0 3px rgba(245,200,66,.3);animation:pls 1.5s infinite}
+.sc.dn{opacity:.3;pointer-events:none;border-style:dashed;transform:none}
+.ct{display:flex;align-items:center;gap:.35rem;padding:.45rem .55rem .25rem}
+.cb{width:1.4rem;height:1.4rem;line-height:1.4rem;text-align:center;border-radius:50%;background:var(--bg);color:var(--gold);font-size:.6rem;font-weight:700;flex-shrink:0}
+.sc.dn .cb{background:#22c55e}
+.cn{font-weight:700;font-size:.75rem;color:var(--text-dark);line-height:1.2}
+.cv{height:110px;overflow:hidden;background:#f1f5f9;display:flex;align-items:center;justify-content:center}
+.cv img{width:100%;height:100%;object-fit:cover;display:block}
+.cp{padding:.25rem .55rem .35rem;font-size:.66rem;color:#64748b;line-height:1.3}
+@keyframes pls{0%,100%{box-shadow:0 0 0 3px rgba(245,200,66,.3)}50%{box-shadow:0 0 0 6px rgba(245,200,66,.15)}}
+.ta{display:flex;flex-direction:column;gap:.5rem}
+.tg{display:grid;grid-template-columns:repeat(5,1fr);gap:.35rem}
+@media(max-width:960px){.tg{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:600px){.tg{grid-template-columns:repeat(2,1fr)}}
+.tc{background:var(--bg2);border-radius:var(--r);border:2px dashed rgba(255,255,255,.1);min-height:220px;display:flex;flex-direction:column;transition:all .25s}
+.tc.dov{border-color:var(--teal);background:rgba(46,196,182,.08)}.tc.tap{cursor:pointer}.tc.tap:hover{border-color:var(--gold);background:rgba(245,200,66,.05)}
+.tch{text-align:center;padding:.4rem .2rem;border-radius:10px 10px 0 0;font-weight:700;font-size:.58rem;text-transform:uppercase;letter-spacing:.6px;color:#fff}
+.tc.ep .tch{background:var(--pangaea)}.tc.e10 .tch{background:var(--tenk)}.tc.e1k .tch{background:var(--onek)}.tc.e100 .tch{background:var(--hundred)}.tc.etd .tch{background:var(--today)}
+.tcb{flex:1;padding:.3rem;display:flex;flex-direction:column;gap:.25rem}
+.dp{flex:1;display:flex;align-items:center;justify-content:center;text-align:center;color:rgba(255,255,255,.15);font-size:.6rem;padding:.3rem;line-height:1.4}
+.pc{background:rgba(255,255,255,.06);border-radius:7px;padding:.3rem .35rem;font-size:.65rem;font-weight:600;color:var(--text);display:flex;align-items:center;gap:.2rem;position:relative;border:1px solid rgba(255,255,255,.08);transition:all .3s}
+.pc .pn{width:1rem;height:1rem;line-height:1rem;text-align:center;border-radius:50%;background:rgba(255,255,255,.1);font-size:.5rem;flex-shrink:0}
+.pc .px{position:absolute;top:-4px;right:-4px;width:14px;height:14px;border-radius:50%;background:var(--coral);color:#fff;border:none;font-size:8px;cursor:pointer;display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .2s}
+.pc:hover .px{opacity:1}
+.pc.ok{border-color:#22c55e;background:rgba(34,197,94,.1)}.pc.ok::after{content:'\2713';position:absolute;right:.3rem;color:#22c55e;font-weight:700;font-size:.7rem}
+.pc.no{border-color:var(--coral);background:rgba(231,111,81,.1)}.pc.no::after{content:'\2717';position:absolute;right:.3rem;color:var(--coral);font-weight:700;font-size:.7rem}
+.bb{display:flex;align-items:center;justify-content:center;gap:.5rem;flex-wrap:wrap;margin-top:.3rem;padding:.4rem}
+.btn{padding:.55rem 1.2rem;border-radius:2rem;font-family:inherit;font-weight:700;font-size:.82rem;cursor:pointer;border:none;transition:all .2s}
+.bg{background:var(--gold);color:var(--bg)}.bg:hover{background:#fcd34d;transform:translateY(-1px)}.bg:disabled{opacity:.4;cursor:default;transform:none}
+.bo{background:transparent;border:2px solid rgba(255,255,255,.15);color:var(--text-dim)}.bo:hover{border-color:var(--coral);color:var(--coral)}
+.bt{background:var(--teal);color:#fff}.bt:hover{background:var(--teal-dark)}
+.rb{text-align:center;padding:.8rem;border-radius:var(--r);margin-top:.3rem;font-weight:700;font-size:.9rem;display:none}
+.rb.show{display:block;animation:fiu .4s}
+.rb.pf{background:linear-gradient(135deg,rgba(34,197,94,.15),rgba(46,196,182,.1));color:#22c55e;border:1px solid rgba(34,197,94,.3)}
+.rb.pt{background:rgba(245,200,66,.1);color:var(--gold);border:1px solid rgba(245,200,66,.2)}
+.mbg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:1000;align-items:center;justify-content:center;padding:.75rem;backdrop-filter:blur(4px)}
+.mbg.open{display:flex}
+.mdl{background:var(--card-bg);border-radius:var(--rl);max-width:600px;width:100%;max-height:88vh;overflow-y:auto;position:relative;color:var(--text-dark)}
+.mhr{width:100%;max-height:280px;overflow:hidden;border-radius:var(--rl) var(--rl) 0 0;position:relative;background:#f1f5f9;display:flex;align-items:center;justify-content:center}
+.mhr img{width:100%;height:auto;display:block;max-height:280px;object-fit:contain}
+.mhr .mb{position:absolute;top:.5rem;left:.5rem;background:rgba(0,0,0,.7);color:#fff;padding:.2rem .6rem;border-radius:2rem;font-size:.68rem;font-weight:700}
+.mx{position:absolute;top:.5rem;right:.5rem;width:1.7rem;height:1.7rem;border-radius:50%;background:rgba(0,0,0,.5);color:#fff;border:none;font-size:.9rem;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:10}
+.mx:hover{background:rgba(0,0,0,.8)}
+.mbd{padding:1rem}
+.mbd h3{font-size:1.05rem;margin-bottom:.35rem}
+.mbd .ds{font-size:.86rem;line-height:1.6;color:#475569;margin-bottom:.5rem}
+.mbd .cl{background:#f0fdf4;border:1px solid #bbf7d0;border-radius:var(--r);padding:.6rem;font-size:.8rem;line-height:1.4}
+.mbd .cl strong{color:#166534}
+.mbd .hr{margin-top:.5rem;background:#fefce8;border:1px solid #fef08a;border-radius:var(--r);padding:.6rem;font-size:.8rem;line-height:1.4;display:none}
+.mbd .hr.show{display:block;animation:fiu .3s}.mbd .hr strong{color:#854d0e}
+.ma{display:flex;gap:.4rem;margin-top:.7rem}.ma .btn{flex:1;text-align:center;font-size:.8rem;padding:.45rem .7rem}
+.dg{position:fixed;pointer-events:none;z-index:9999;background:var(--bg);color:var(--gold);padding:.4rem .65rem;border-radius:var(--r);font-weight:700;font-size:.72rem;box-shadow:0 8px 32px rgba(0,0,0,.4);border:2px solid var(--gold);transform:rotate(2deg);max-width:170px}
+.cf{position:fixed;z-index:9999;pointer-events:none;animation:cff 2.5s ease-in forwards}
+@keyframes cff{0%{opacity:1;transform:translateY(0) rotate(0)}100%{opacity:0;transform:translateY(100vh) rotate(720deg)}}
+.tc.hg{border-color:var(--gold)!important;box-shadow:0 0 20px rgba(245,200,66,.3);animation:hp 1s ease 2}
+@keyframes hp{0%,100%{box-shadow:0 0 20px rgba(245,200,66,.3)}50%{box-shadow:0 0 35px rgba(245,200,66,.5)}}
+@keyframes fiu{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+</style>
+</head>
+<body>
+<header class="hdr"><h1>&#9203; Time Period Sorting Activity</h1><div class="sub">PGG Unit 5: Lesson 2 — The Physical Earth Across Time</div></header>
+<div class="sb">
+<div class="st"><span class="ic">&#11088;</span><span class="vl" id="sV">0</span><span class="lb">pts</span></div>
+<div class="st"><span class="sf" id="sF">&#128293;</span><span class="vl" id="stV">0</span><span class="lb">streak</span></div>
+<div class="st"><span class="ic">&#128202;</span><span class="vl" id="pV">0</span><span class="lb" id="totalLabel">/ 13</span></div>
+<div class="st"><span class="ic">&#9201;</span><span class="td" id="tmr">0:00</span></div>
+<button class="hb" id="hB" onclick="useHint()">&#128161; Hint <span id="hC">(3)</span></button>
+</div>
+<div class="ins"><div class="ic2"><span class="ii">&#128506;</span><p><strong>Directions:</strong> Examine each source card, then sort it into the correct time period. <strong>Tap a card</strong> to study it closely, then <strong>drag</strong> it or tap a column to place it. <strong>+100 pts</strong> per correct answer with <strong>streak bonuses</strong>! 3 hints available. Record answers on your worksheet!</p></div></div>
+<div class="mn">
+<div class="try"><div class="th"><h3>&#128203; Source Cards</h3><span class="rm" id="rL">13 remaining</span></div><div class="sl" id="sL"></div></div>
+<div class="ta"><div class="tg" id="tG"></div>
+<div class="bb"><button class="btn bg" id="cB" onclick="checkAns()" disabled>Check Answers</button><button class="btn bo" onclick="resetAll()">Reset</button></div>
+<div class="rb" id="rB"></div></div>
+</div>
+<div class="mbg" id="mB"><div class="mdl">
+<button class="mx" onclick="closeM()">&#10005;</button>
+<div class="mhr" id="mH"></div>
+<div class="mbd"><h3 id="mT"></h3><div class="ds" id="mD"></div><div class="cl" id="mC"></div><div class="hr" id="mR"></div>
+<div class="ma"><button class="btn bt" onclick="closeM()">Got it — place this card</button></div></div>
+</div></div>
+<script>
+const AC=window.AudioContext||window.webkitAudioContext;let ac;
+function ea(){if(!ac)ac=new AC()}
+function pt(f,d=.15,t='sine',v=.1){try{ea();const o=ac.createOscillator(),g=ac.createGain();o.type=t;o.frequency.value=f;g.gain.value=v;g.gain.exponentialRampToValueAtTime(.001,ac.currentTime+d);o.connect(g);g.connect(ac.destination);o.start();o.stop(ac.currentTime+d)}catch(e){}}
+function sfxP(){pt(523,.1);setTimeout(()=>pt(659,.1),80)}
+function sfxW(){pt(330,.2,'triangle');setTimeout(()=>pt(277,.3,'triangle'),150)}
+function sfxZ(){[523,659,784,988,1047].forEach((f,i)=>setTimeout(()=>pt(f,.15,'sine',.13),i*100))}
+const D=[{"id": 1, "t": "Pangaea Supercontinent", "a": "pangaea", "p": "All continents joined as one landmass surrounded by the Panthalassa ocean", "d": "This map shows Pangaea — a supercontinent where ALL of Earth's landmasses were connected approximately 335 million years ago. Notice how the coastlines of South America and Africa fit together like puzzle pieces. Fossils of identical species (like the Mesosaurus) have been found on continents now separated by thousands of miles of ocean — proof they were once joined.", "c": "🔍 <strong>Sorting clues:</strong> All continents connected as one. Only one giant ocean (Panthalassa). No humans — we know this era from fossils and rock layers.", "h": "This is the <strong>oldest</strong> time period — hundreds of millions of years before humans.", "img": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cb/Pangaea_continents.svg/800px-Pangaea_continents.svg.png"}, {"id": 2, "t": "First & Earliest Civilizations", "a": "10k", "p": "Mesopotamia, Egypt, Indus Valley, China — humanity's first permanent settlements near rivers", "d": "After the Ice Age ended (~10,000 years ago), warming climates and fertile river valleys allowed humans to shift from nomadic hunter-gathering to settled agriculture. The Fertile Crescent (Mesopotamia), Nile Valley (Egypt), Indus Valley, and Yellow River Valley (China) became the cradles of civilization — the first places humans built cities, invented writing, and developed governments.", "c": "🔍 <strong>Sorting clues:</strong> All four civilizations near major rivers. This marks the start of farming, writing, and permanent settlements — the Neolithic Revolution.", "h": "Think about what humans did <strong>right after the Ice Age ended</strong> — settling near rivers and starting to farm.", "img": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/World_in_2000_BC.svg/800px-World_in_2000_BC.svg.png"}, {"id": 3, "t": "Mappa Mundi (Ebstorf Map)", "a": "1k", "p": "Medieval European world map c. 1234 — a religious worldview, NOT real geography", "d": "The Ebstorf Map (c. 1234–1240) is a mappa mundi — a medieval European map of the world, painted on 30 goatskin sheets measuring 12 feet across. It does NOT accurately depict geography — it reflects the medieval Christian worldview: Jerusalem at the center, east at the top, Christ's body framing the earth. The T-shaped Mediterranean divides the three known continents. The Americas and Australia are completely absent.", "c": "🔍 <strong>Sorting clues:</strong> Medieval European artifact. No Americas or Australia. This map shows what people <em>believed</em>, not what the world actually looked like.", "h": "Medieval Europe = roughly <strong>500–1500 CE</strong>. That's about a thousand years ago.", "img": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4d/Ebstorfer-stich2.jpg/600px-Ebstorfer-stich2.jpg"}, {"id": 4, "t": "Early Human Migration Routes", "a": "10k", "p": "How humans spread from Africa to every continent over tens of thousands of years", "d": "This map traces the routes of early human migration out of Africa. Humans first left Africa roughly 70,000 years ago, moving along coastlines and rivers. During the Ice Age, lower sea levels created land bridges — including Beringia (connecting Asia to North America) — allowing humans to reach the Americas by ~15,000 years ago. This migration ended as the Ice Age concluded and rising seas flooded the land bridges.", "c": "🔍 <strong>Sorting clues:</strong> Arrows start from Africa and spread outward. Land bridges (now underwater) exposed during the Ice Age. Humans reached the Americas last.", "h": "This happened over thousands of years, ending when the <strong>Ice Age ended and land bridges flooded</strong>.", "img": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d5/Spreading_homo_sapiens_la.svg/800px-Spreading_homo_sapiens_la.svg.png"}, {"id": 5, "t": "Cradle of the Industrial Revolution", "a": "100", "p": "Map of industrialization spreading across European nations in the 1800s", "d": "This map shows the spread of the Industrial Revolution across Europe from the mid-to-late 1800s. Starting in Britain, factories, railroads, and urbanization transformed entire nations. Clear national borders, coal-powered industry, and expanding railroad networks defined this era. Countries like Germany, France, Russia, and the Austro-Hungarian Empire rapidly industrialized, shifting millions from farms to cities.", "c": "🔍 <strong>Sorting clues:</strong> Modern national borders visible. Railroads and factories everywhere. This is the era of rapid urbanization, fossil fuels, and the beginning of global connections.", "h": "Factories, railroads, national borders — the <strong>1800s</strong>, roughly 100–200 years ago.", "img": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/Industrial_Revolution_in_Europe.png/800px-Industrial_Revolution_in_Europe.png"}, {"id": 6, "t": "Ice Age vs. Today — Ice Coverage", "a": "10k", "p": "Side-by-side: massive Ice Age glaciers covering continents vs. today's reduced ice", "d": "During the last Ice Age (peaking ~20,000 years ago, ending ~10,000 years ago), massive glaciers covered much of North America, northern Europe, and northern Asia. Sea levels were over 400 feet lower than today, exposing vast areas of continental shelf and creating land bridges. As glaciers melted, sea levels rose, climates warmed, and new habitable land appeared — completely transforming where humans could live.", "c": "🔍 <strong>Sorting clues:</strong> Two-panel comparison — one side covered in ice, one with minimal ice. The transition happened as the Ice Age ended.", "h": "The Ice Age ended roughly <strong>10,000 years ago</strong> — that's the transition this image shows.", "img": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/Iceage_north-intergl_glac_hg.png/800px-Iceage_north-intergl_glac_hg.png"}, {"id": 7, "t": "Trade Routes That Shaped the World", "a": "1k", "p": "Silk Road, Spice Route, Viking Routes — connecting medieval civilizations across continents", "d": "This map shows the great trade routes that connected civilizations roughly 500–1500 CE: the Silk Road (linking China to the Mediterranean), the Spice Routes (across the Indian Ocean), Viking Trade Routes (through northern Europe and into Russia), the Trans-Saharan Routes (across the African desert), and the Grand Trunk Road (across South Asia). These networks spread goods, ideas, religions, and technologies between empires.", "c": "🔍 <strong>Sorting clues:</strong> Multiple civilizations trading across continents. Established kingdoms and empires. Continents in their modern positions. People settled in complex societies.", "h": "These routes flourished during the <strong>medieval period (500–1500 CE)</strong> — roughly a thousand years ago.", "img": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Silk_Road_in_the_I_century_AD_-_en.svg/800px-Silk_Road_in_the_I_century_AD_-_en.svg.png"}, {"id": 8, "t": "Internet Users by Country (%)", "a": "today", "p": "World map showing internet penetration rates — the digital divide in the modern world", "d": "This choropleth map shows what percentage of each country's population has internet access. Wealthy, developed nations (North America, Europe, East Asia, Australia) have 85–95%+ internet penetration, while many countries in sub-Saharan Africa and South Asia have rates below 50%. This reflects today's hyper-connected — but deeply unequal — world, with a clear 'digital divide' between rich and poor nations.", "c": "🔍 <strong>Sorting clues:</strong> The internet! Global technology, massive populations, dense cities, and a digital divide between wealthy and developing nations.", "h": "Only one time period has the <strong>internet</strong>. This is clearly the most modern source.", "img": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/99/InternetPenetrationWorldMap.svg/800px-InternetPenetrationWorldMap.svg.png"}, {"id": 9, "t": "Fossil Evidence Across Continents", "a": "pangaea", "p": "Identical fossils found on continents now separated by oceans — proof of a connected landmass", "d": "This diagram shows how fossils of the same ancient species have been found on continents now separated by thousands of miles of ocean. The Mesosaurus (a freshwater reptile), Cynognathus, Lystrosaurus, and Glossopteris (a fern) have been discovered in South America, Africa, India, Antarctica, and Australia. Since these organisms couldn't have crossed oceans, this is powerful evidence that these landmasses were once connected.", "c": "🔍 <strong>Sorting clues:</strong> These species couldn't have crossed oceans. The only explanation is that the continents were once joined. No humans existed during this era.", "h": "Fossils that prove continents were once connected = evidence for <strong>Pangaea</strong>, the oldest period.", "img": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ed/Snider-Pellegrini_Wegener_fossil_map.svg/800px-Snider-Pellegrini_Wegener_fossil_map.svg.png"}, {"id": 10, "t": "Beringia: The Land Bridge", "a": "10k", "p": "During the Ice Age, a land bridge connected Asia to North America across the Bering Strait", "d": "During the last Ice Age, sea levels dropped so dramatically (over 400 feet) that a wide land bridge — called Beringia — emerged between Siberia (Asia) and Alaska (North America). This bridge wasn't a narrow path; it was a vast, treeless grassland hundreds of miles wide. Humans, along with mammoths and other megafauna, crossed this bridge to populate the Americas. When the Ice Age ended ~10,000 years ago, rising seas submerged Beringia beneath the Bering Strait.", "c": "🔍 <strong>Sorting clues:</strong> Ice Age sea levels exposed land that is now underwater. Humans used this bridge to reach the Americas. It disappeared when glaciers melted.", "h": "Land bridges only existed during the <strong>Ice Age</strong>, which ended ~10,000 years ago.", "img": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7b/Beringia_land_bridge-notext-2.png/800px-Beringia_land_bridge-notext-2.png"}, {"id": 11, "t": "The Roman Empire at Its Peak", "a": "1k", "p": "Map showing the Roman Empire at its greatest territorial extent, c. 117 CE", "d": "This map shows the Roman Empire at its greatest extent around 117 CE under Emperor Trajan. The empire stretched from Britain to Mesopotamia, controlling the entire Mediterranean ('Mare Nostrum' — Our Sea). The Romans built roads, aqueducts, cities, and a legal system that influenced the world for centuries. This was a period of established civilizations, stable (if brutal) governance, and long-distance trade.", "c": "🔍 <strong>Sorting clues:</strong> A massive empire with clear borders, cities, roads, and organized government. Continents in modern positions. A complex civilization — but no factories or modern technology.", "h": "The Roman Empire peaked around <strong>100–200 CE</strong> — roughly 1,000 to 2,000 years ago. Closer to the ~1,000 years ago period.", "img": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/00/Roman_Empire_Trajan_117AD.png/800px-Roman_Empire_Trajan_117AD.png"}, {"id": 12, "t": "Earth at Night — City Lights", "a": "today", "p": "NASA satellite image showing electric lights across the globe — a snapshot of modern urbanization", "d": "This NASA composite satellite image shows Earth at night, with city lights visible from space. The brightest areas correspond to the most urbanized and developed regions — the eastern United States, Western Europe, Japan, and coastal China. Large dark areas (central Africa, the Amazon, central Asia, the oceans) have little or no electric lighting. This image is a powerful visual of modern human settlement patterns, energy use, and the global distribution of wealth and development.", "c": "🔍 <strong>Sorting clues:</strong> Electric lights visible from space! This requires modern electricity, urbanization, and satellite technology. The pattern shows where wealthy, developed cities are concentrated.", "h": "Satellite images of <strong>electric lights from space</strong> = obviously the present day.", "img": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/af/Earth%27s_City_Lights_2012_-_Flat_map.jpg/800px-Earth%27s_City_Lights_2012_-_Flat_map.jpg"}, {"id": 13, "t": "World Population Growth Over Time", "a": "100", "p": "Graph showing explosive population growth from 1 billion to 8 billion in just 200 years", "d": "This chart tracks world population growth throughout human history. For most of human existence, the global population was well under 1 billion. Then, around the early 1800s — driven by the Industrial Revolution, improved agriculture, and advances in medicine — population exploded. It took all of human history to reach 1 billion (around 1800), but only 200 more years to reach 8 billion. This kind of exponential growth is unique to the modern industrial era.", "c": "🔍 <strong>Sorting clues:</strong> A population explosion starting in the 1800s. The graph shows billions of people — numbers only possible after industrialization, modern farming, and medicine.", "h": "The population explosion began with the <strong>Industrial Revolution in the 1800s</strong> — roughly 100–200 years ago.", "img": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b7/Population_curve.svg/800px-Population_curve.svg.png"}];
+const PER=[{"id": "pangaea", "label": "Pangaea (~335 MYA)", "cs": "ep", "color": "#dc2626"}, {"id": "10k", "label": "~10,000 Years Ago", "cs": "e10", "color": "#d97706"}, {"id": "1k", "label": "~1,000 Years Ago", "cs": "e1k", "color": "#059669"}, {"id": "100", "label": "~100 Years Ago", "cs": "e100", "color": "#2563eb"}, {"id": "today", "label": "Today", "cs": "etd", "color": "#7c3aed"}];
+
+const TOTAL=D.length;
+let pl={},sel=null,sc=0,sk=0,hl=3,ts=0,ti=null,chk=false;
+document.getElementById('totalLabel').textContent='/ '+TOTAL;
+
+function stT(){if(!ti)ti=setInterval(()=>{ts++;const m=Math.floor(ts/60),s=ts%60;document.getElementById('tmr').textContent=m+':'+(s<10?'0':'')+s},1000)}
+function spT(){clearInterval(ti);ti=null}
+function R(){rS();rT();uS()}
+
+function rS(){
+const el=document.getElementById('sL');el.innerHTML='';
+[...D].sort((a,b)=>a._o-b._o).forEach(s=>{
+const p=pl[s.id]!==undefined,sl=sel===s.id;
+const d=document.createElement('div');d.className='sc'+(p?' dn':'')+(sl?' sel':'');d.dataset.id=s.id;
+d.innerHTML='<div class="ct"><span class="cb">'+s.id+'</span><span class="cn">'+s.t+'</span></div><div class="cv"><img referrerpolicy="no-referrer" crossorigin="anonymous" src="'+s.img+'" alt="'+s.t+'" loading="lazy"></div><div class="cp">'+s.p+'</div>';
+if(!p&&!chk){d.addEventListener('click',()=>oM(s));d.addEventListener('mousedown',e=>iD(e,s));d.addEventListener('touchstart',e=>iD(e,s),{passive:false})}
+el.appendChild(d)});
+document.getElementById('rL').textContent=(TOTAL-Object.keys(pl).length)+' remaining';
+}
+
+function rT(){
+const el=document.getElementById('tG');el.innerHTML='';
+PER.forEach(p=>{const d=document.createElement('div');d.className='tc '+p.cs;d.dataset.p=p.id;
+let h='<div class="tch">'+p.label+'</div><div class="tcb">';
+const here=Object.entries(pl).filter(([,v])=>v===p.id);
+if(!here.length)h+='<div class="dp">Drop sources<br>here</div>';
+else here.forEach(([sid])=>{const s=D.find(x=>x.id==sid);const cls=chk?(s.a===p.id?'ok':'no'):'';
+h+='<div class="pc '+cls+'" data-s="'+sid+'"><span class="pn">'+s.id+'</span>'+s.t+(chk?'':'<button class="px" onclick="event.stopPropagation();rP('+sid+')">&#10005;</button>')+'</div>'});
+h+='</div>';d.innerHTML=h;
+d.addEventListener('dragover',e=>{e.preventDefault();d.classList.add('dov')});
+d.addEventListener('dragleave',()=>d.classList.remove('dov'));
+d.addEventListener('drop',e=>{e.preventDefault();d.classList.remove('dov');const sid=e.dataTransfer?.getData('text')||window._di;if(sid)pS(parseInt(sid),p.id)});
+d.addEventListener('click',()=>{if(sel!==null&&pl[sel]===undefined&&!chk){pS(sel,p.id);sel=null;R()}});
+if(sel!==null&&pl[sel]===undefined&&!chk)d.classList.add('tap');
+el.appendChild(d)});
+document.getElementById('cB').disabled=Object.keys(pl).length<TOTAL||chk;
+}
+
+function uS(){
+const sv=document.getElementById('sV');sv.textContent=sc;sv.classList.add('pop');setTimeout(()=>sv.classList.remove('pop'),300);
+document.getElementById('stV').textContent=sk;document.getElementById('pV').textContent=Object.keys(pl).length;
+document.getElementById('sF').classList.toggle('lit',sk>=2);
+document.getElementById('hC').textContent='('+hl+')';document.getElementById('hB').disabled=hl<=0||sel===null||chk;
+}
+
+let gh=null;window._di=null;
+function iD(e,s){
+if(pl[s.id]!==undefined||chk)return;stT();
+if(!e.touches){const c=e.target.closest('.sc');c.setAttribute('draggable','true');
+c.addEventListener('dragstart',de=>{de.dataTransfer.setData('text',s.id);de.target.style.opacity='.4';window._di=s.id},{once:true});
+c.addEventListener('dragend',de=>{de.target.style.opacity='';window._di=null},{once:true});return}
+e.preventDefault();window._di=s.id;
+gh=document.createElement('div');gh.className='dg';gh.textContent='Source '+s.id+': '+s.t;
+document.body.appendChild(gh);const tt=e.touches[0];gh.style.left=(tt.clientX-60)+'px';gh.style.top=(tt.clientY-20)+'px';
+const onM=me=>{me.preventDefault();const t=me.touches[0];gh.style.left=(t.clientX-60)+'px';gh.style.top=(t.clientY-20)+'px';
+document.querySelectorAll('.tc').forEach(c=>{const r=c.getBoundingClientRect();c.classList.toggle('dov',t.clientX>=r.left&&t.clientX<=r.right&&t.clientY>=r.top&&t.clientY<=r.bottom)})};
+const onE=te=>{const t=te.changedTouches[0];document.querySelectorAll('.tc').forEach(c=>{c.classList.remove('dov');const r=c.getBoundingClientRect();
+if(t.clientX>=r.left&&t.clientX<=r.right&&t.clientY>=r.top&&t.clientY<=r.bottom)pS(s.id,c.dataset.p)});
+if(gh){gh.remove();gh=null}window._di=null;document.removeEventListener('touchmove',onM);document.removeEventListener('touchend',onE)};
+document.addEventListener('touchmove',onM,{passive:false});document.addEventListener('touchend',onE);
+}
+
+function pS(sid,pid){stT();pl[sid]=pid;sfxP();sel=null;chk=false;document.getElementById('rB').classList.remove('show');R()}
+function rP(sid){delete pl[sid];chk=false;document.getElementById('rB').classList.remove('show');R()}
+
+function checkAns(){
+chk=true;spT();sc=0;sk=0;let ok=0;
+D.forEach(s=>{if(pl[s.id]===s.a){sk++;sc+=100+(sk>1?(sk-1)*25:0);ok++}else{sk=0}});
+R();const b=document.getElementById('rB');
+if(ok===TOTAL){b.className='rb show pf';b.innerHTML='🎉 PERFECT! '+ok+'/'+TOTAL+' — '+sc+' pts in '+document.getElementById('tmr').textContent+'!';sfxZ();lC()}
+else{b.className='rb show pt';b.innerHTML=ok+'/'+TOTAL+' correct — '+sc+' pts. <span style="color:var(--teal)">Green ✓</span> = correct, <span style="color:var(--coral)">Red ✗</span> = wrong. Discuss!';sfxW()}
+}
+
+function useHint(){
+if(hl<=0||sel===null)return;hl--;
+const s=D.find(x=>x.id===sel);if(!s)return;
+const h=document.getElementById('mR');if(h){h.innerHTML='<strong>💡 Hint:</strong> '+s.h;h.classList.add('show')}
+document.querySelectorAll('.tc').forEach(c=>{if(c.dataset.p===s.a){c.classList.add('hg');setTimeout(()=>c.classList.remove('hg'),2500)}});
+sc=Math.max(0,sc-25);uS();
+}
+
+function oM(s){
+sel=s.id;
+document.getElementById('mH').innerHTML='<div class="mb">Source '+s.id+'</div><img referrerpolicy="no-referrer" crossorigin="anonymous" src="'+s.img+'" alt="'+s.t+'">';
+document.getElementById('mT').textContent=s.t;document.getElementById('mD').textContent=s.d;
+document.getElementById('mC').innerHTML=s.c;
+const h=document.getElementById('mR');h.classList.remove('show');h.innerHTML='';
+document.getElementById('mB').classList.add('open');R();uS();
+}
+function closeM(){document.getElementById('mB').classList.remove('open');R()}
+document.getElementById('mB').addEventListener('click',e=>{if(e.target===document.getElementById('mB'))closeM()});
+
+function lC(){const c=['#f5c842','#e76f51','#2ec4b6','#f4a261','#22c55e','#7c3aed','#dc2626'];
+for(let i=0;i<100;i++){const p=document.createElement('div');p.className='cf';
+p.style.cssText='left:'+Math.random()*100+'vw;top:-10px;background:'+c[i%7]+';animation-delay:'+Math.random()*1.5+'s;width:'+(6+Math.random()*10)+'px;height:'+(6+Math.random()*10)+'px;border-radius:'+(Math.random()>.5?'50%':'2px');
+document.body.appendChild(p);setTimeout(()=>p.remove(),4000)}}
+
+function resetAll(){pl={};sel=null;sc=0;sk=0;chk=false;ts=0;spT();
+document.getElementById('tmr').textContent='0:00';document.getElementById('rB').classList.remove('show');hl=3;R()}
+
+D.forEach(s=>s._o=Math.random());R();
+</script>
+</body>
+</html>
